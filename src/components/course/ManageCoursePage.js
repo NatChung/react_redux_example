@@ -19,7 +19,7 @@ export class ManageCoursePage extends React.Component {
   render() {
     return (
       <CourseForm
-        allAuthors={[]}
+        allAuthors={this.props.authors}
         onChange={this.updateCourseState}
         course={this.state.course}
         errors={this.state.errors}
@@ -29,7 +29,8 @@ export class ManageCoursePage extends React.Component {
 }
 
 ManageCoursePage.propTypes = {
-  course: PropTypes.object.isRequired
+  course: PropTypes.object.isRequired,
+  authors: PropTypes.array.isRequired
 };
 
 
@@ -41,8 +42,17 @@ function getCourseById(courses, id) {
 
 function mapStateToProps(state, ownProps) {
   let course = {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''};
+
+  const authorsFormattedForDropdown = state.authors.map( author => {
+    return {
+      value: author.id,
+      text: author.firstName + ' ' + author.lastName
+    }
+  })
+
   return {
-    course: course
+    course: course,
+    authors: authorsFormattedForDropdown
   };
 }
 
